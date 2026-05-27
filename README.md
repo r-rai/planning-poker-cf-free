@@ -94,26 +94,125 @@ The server will boot up locally at **`http://localhost:8788`**. You can open mul
 
 ---
 
-## ☁️ Cloudflare Pages Production Deployment
+## ☁️ Production Deployment & Maintenance Guide
 
-### 1. Create a D1 Database in Cloudflare
-Register a new D1 database instance in your Cloudflare dashboard, or execute via terminal:
+Follow these clear, step-by-step instructions to push your code to GitHub, deploy the frontend and API edge functions to Cloudflare Pages, set up the D1 SQL database, and run automated database purging to keep the table size small.
+
+---
+
+### 1. 🐙 Push Your Project to GitHub
+
+Before deploying to Cloudflare Pages, you need to push your local repository to a new repository on GitHub:
+
+1. **Create a new repository** on [GitHub](https://github.com/new). Do **not** initialize it with a README, license, or `.gitignore` (as they are already present locally).
+2. Copy the **HTTPS** or **SSH** URL of your new GitHub repository (e.g., `https://github.com/YOUR_USERNAME/planning-poker.git`).
+3. Run the following commands in your local project terminal to connect and push your code:
+   ```bash
+   # Add your GitHub repository as the remote origin
+   git remote add origin https://github.com/YOUR_USERNAME/planning-poker.git
+   
+   # Set the branch name to main
+   git branch -M main
+   
+   # Push your code to GitHub
+   git push -u origin main
+   ```
+
+---
+
+### 2. 🗄️ Create and Initialize Cloudflare D1 Database
+
+This application requires a Cloudflare D1 SQLite database to store sessions, votes, and story logs.
+
+1. **Create the production D1 database** inside the Cloudflare Dashboard (**Workers & Pages** > **D1** > **Create Database**) or run the following command in your terminal:
+   ```bash
+   npx wrangler d1 create planning-poker-db
+   ```
+2. Copy the `database_id` generated in the terminal or shown in the Cloudflare Dashboard.
+3. Open your project's [wrangler.toml](file:///home/ravi/projects/planning-poker/wrangler.toml) file and update the D1 database binding config:
+   ```toml
+   [[d1_databases]]
+   binding = "DB"
+   database_name = "planning-poker-db"
+   database_id = "YOUR_PASTED_DATABASE_ID"
+   ```
+4. Run the remote migration to initialize the database tables in production:
+   ```bash
+   npm run db:init:remote
+   ```
+
+---
+
+### 3. 🚀 Deploy to Cloudflare Pages via Dashboard
+
+With your code on GitHub and your database initialized, you can deploy your application:
+
+1. Go to the **Cloudflare Dashboard** and navigate to **Workers & Pages** > **Pages** > **Connect to Git** / **Create a project**.
+2. Select your `planning-poker` GitHub repository.
+3. In the **Set up builds and deployments** screen, configure the following settings:
+   *   **Framework Preset:** `None`
+   *   **Build Command:** `npm run build`
+   *   **Build Output Directory:** `dist`
+4. Click **Save and Deploy**.
+5. Once the first build finishes, navigate to **Settings** > **Functions** > **D1 database bindings** in your Cloudflare Pages project.
+6. Click **Add binding**:
+   *   **Variable name (binding):** `DB`
+   *   **D1 Database:** Select `planning-poker-db` from the dropdown list.
+7. Go to the **Deployments** tab and click **Retry deployment** (or trigger a new git push) to apply the database binding.
+8. **Congratulations!** Your application is now live on your custom `.pages.dev` subdomain!
+
+---
+
+### 4. 🧹 Database Maintenance (Purge Records Older Than 6 Hours)
+
+To keep your D1 database clean and avoid exceeding free tier limits, a maintenance command has been added to purge database records (sessions, participants, and story history logs) that are older than 6 hours.
+
+#### A. Manual Purging
+To manually purge old database records, execute:
 ```bash
-npx wrangler d1 create planning-poker-db
-```
-Cloudflare will return database binding parameters (database name and `database_id`). Paste these inside your root [wrangler.toml](file:///home/ravi/projects/planning-poker/wrangler.toml) profile under:
-```toml
-[[d1_databases]]
-binding = "DB"
-database_name = "planning-poker-db"
-database_id = "YOUR_DATABASE_ID_HERE"
+# Purge production database records
+npm run db:purge
+
+# Purge local simulated database records (during development)
+npm run db:purge:local
 ```
 
-### 2. Deploy Schema to Remote D1 Database
-Initialize your production remote database tables:
-```bash
-npm run db:init:remote
-```
+#### B. Automated Purging via GitHub Actions
+You can easily automate this cleanup using GitHub Actions to run the purge command every 6 hours:
 
-### 3. Push and Host on Cloudflare Pages
-Connect your repository to your Cloudflare Pages dashboard, select **Pages** deployment, bind your D1 Database under the Pages environment settings tab as `DB`, and deploy! Your Scrum application will go live globally across Cloudflare's free edge CDN!
+1. Create a file called `.github/workflows/db-maintenance.yml` in your project.
+2. Paste the following configuration into it:
+   ```yaml
+   name: DB Maintenance Purge
+
+   on:
+     schedule:
+       # Runs every 6 hours
+       - cron: '0 */6 * * *'
+     workflow_dispatch: # Allows manual trigger from GitHub UI
+
+   jobs:
+     purge-db:
+       runs-on: ubuntu-latest
+       steps:
+         - name: Checkout Code
+           uses: actions/checkout@v4
+
+         - name: Setup Node.js
+           uses: actions/setup-node@v4
+           with:
+             node-version: 18
+             cache: 'npm'
+
+         - name: Install Dependencies
+           run: npm ci
+
+         - name: Run Purge Command
+           run: npm run db:purge
+           env:
+             CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+             CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+   ```
+3. Set your Cloudflare credentials as GitHub Secrets in your repository (**Settings** > **Secrets and variables** > **Actions**):
+   *   `CLOUDFLARE_API_TOKEN`: A Cloudflare API token with `D1` edit permissions.
+   *   `CLOUDFLARE_ACCOUNT_ID`: Your Cloudflare Account ID.

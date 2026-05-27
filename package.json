@@ -1,0 +1,14 @@
+{
+  "name": "planning-poker-scrum",
+  "version": "1.0.0",
+  "description": "Scrum Planning Poker using Cloudflare Pages, Functions and D1 Database.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "wrangler pages dev . --d1 DB --compatibility-date=2024-01-15",
+    "db:init": "wrangler d1 execute DB --local --file=./d1-schema.sql",
+    "db:init:remote": "wrangler d1 execute DB --remote --file=./d1-schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

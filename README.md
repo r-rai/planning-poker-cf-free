@@ -128,14 +128,8 @@ This application requires a Cloudflare D1 SQLite database to store sessions, vot
    ```bash
    npx wrangler d1 create planning-poker-db
    ```
-2. Copy the `database_id` generated in the terminal or shown in the Cloudflare Dashboard.
-3. Open your project's [wrangler.toml](file:///home/ravi/projects/planning-poker/wrangler.toml) file and update the D1 database binding config:
-   ```toml
-   [[d1_databases]]
-   binding = "DB"
-   database_name = "planning-poker-db"
-   database_id = "YOUR_PASTED_DATABASE_ID"
-   ```
+2. You **do not** need to copy or paste the `database_id` into your public `wrangler.toml` file! To protect your privacy in public repositories, the `wrangler.toml` in your repository remains entirely generic.
+3. The remote scripts in `package.json` are pre-configured to target your database by its registered name (`planning-poker-db`) directly instead of the generic binding name (`DB`). Wrangler will securely authenticate against your Cloudflare account from your local terminal.
 4. Run the remote migration to initialize the database tables in production:
    ```bash
    npm run db:init:remote

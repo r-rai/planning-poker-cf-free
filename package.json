@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "wrangler pages dev . --d1 DB --compatibility-date=2024-01-15",
     "db:init": "wrangler d1 execute DB --local --file=./d1-schema.sql",
-    "db:init:remote": "wrangler d1 execute DB --remote --file=./d1-schema.sql"
+    "db:init:remote": "wrangler d1 execute DB --remote --file=./d1-schema.sql",
+    "db:purge": "wrangler d1 execute DB --remote --command=\"DELETE FROM participants WHERE session_id IN (SELECT id FROM sessions WHERE created_at < (strftime('%s', 'now') * 1000 - 21600000)); DELETE FROM stories_history WHERE session_id IN (SELECT id FROM sessions WHERE created_at < (strftime('%s', 'now') * 1000 - 21600000)); DELETE FROM sessions WHERE created_at < (strftime('%s', 'now') * 1000 - 21600000);\"",
+    "db:purge:local": "wrangler d1 execute DB --local --command=\"DELETE FROM participants WHERE session_id IN (SELECT id FROM sessions WHERE created_at < (strftime('%s', 'now') * 1000 - 21600000)); DELETE FROM stories_history WHERE session_id IN (SELECT id FROM sessions WHERE created_at < (strftime('%s', 'now') * 1000 - 21600000)); DELETE FROM sessions WHERE created_at < (strftime('%s', 'now') * 1000 - 21600000);\""
   },
   "devDependencies": {
     "wrangler": "^3.0.0"

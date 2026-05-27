@@ -3,8 +3,8 @@ name = "planning-poker-scrum"
 compatibility_date = "2024-01-15"
 
 [build]
-command = ""
-upload.dir = "."
+command = "npm run build"
+upload.dir = "dist"
 
 [[d1_databases]]
 binding = "DB"

@@ -1,22 +1,9 @@
 # Cloudflare Pages Configuration
 name = "planning-poker-scrum"
+pages_build_output_dir = "dist"
 compatibility_date = "2024-01-15"
-
-[build]
-command = "npm run build"
-upload.dir = "dist"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "planning_poker_db"
 database_id = "planning_poker_db" # Locally this creates a .wrangler directory local DB database
-
-[[headers]]
-for = "/*"
-  [headers.values]
-  Content-Security-Policy = "default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net; script-src 'self' 'unsafe-eval' https://cdn.jsdelivr.net https://cdn.tailwindcss.com; style-src 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self';"
-  X-Content-Type-Options = "nosniff"
-  X-Frame-Options = "DENY"
-  Referrer-Policy = "strict-origin-when-cross-origin"
-  Permissions-Policy = "geolocation=(), microphone=(), camera=()"
-  Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"

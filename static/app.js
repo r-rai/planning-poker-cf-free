@@ -156,13 +156,13 @@ function switchLandingTab(type) {
     if (!joinBtn || !createBtn || !joinForm || !createForm) return;
 
     if (type === 'join') {
-        joinBtn.className = "flex-1 text-center py-2.5 font-heading text-xl transition-all border-b-2 border-primary dark:border-primary-dark text-txtlight dark:text-txtdark";
-        createBtn.className = "flex-1 text-center py-2.5 font-heading text-xl transition-all border-b-2 border-transparent text-muted-slate dark:text-txtdark/55 hover:text-txtlight dark:hover:text-txtdark";
+        joinBtn.className = "flex-1 text-center py-2.5 font-heading text-xl transition-all border-b-2 border-primary dark:border-primary-dark text-text-light dark:text-text-dark";
+        createBtn.className = "flex-1 text-center py-2.5 font-heading text-xl transition-all border-b-2 border-transparent text-muted-slate dark:text-text-dark/55 hover:text-text-light dark:hover:text-text-dark";
         joinForm.classList.remove('hidden');
         createForm.classList.add('hidden');
     } else {
-        createBtn.className = "flex-1 text-center py-2.5 font-heading text-xl transition-all border-b-2 border-primary dark:border-primary-dark text-txtlight dark:text-txtdark";
-        joinBtn.className = "flex-1 text-center py-2.5 font-heading text-xl transition-all border-b-2 border-transparent text-muted-slate dark:text-txtdark/55 hover:text-txtlight dark:hover:text-txtdark";
+        createBtn.className = "flex-1 text-center py-2.5 font-heading text-xl transition-all border-b-2 border-primary dark:border-primary-dark text-text-light dark:text-text-dark";
+        joinBtn.className = "flex-1 text-center py-2.5 font-heading text-xl transition-all border-b-2 border-transparent text-muted-slate dark:text-text-dark/55 hover:text-text-light dark:hover:text-text-dark";
         createForm.classList.remove('hidden');
         joinForm.classList.add('hidden');
     }
@@ -608,7 +608,7 @@ function renderSpectators(spectators) {
     if (!list) return;
 
     if (spectators.length === 0) {
-        list.innerHTML = `<span class="text-muted-slate/50 dark:text-txtdark/30 italic">No observers active</span>`;
+        list.innerHTML = `<span class="text-muted-slate/50 dark:text-text-dark/30 italic">No observers active</span>`;
         return;
     }
 
@@ -616,11 +616,11 @@ function renderSpectators(spectators) {
         const isSelf = s.id === state.participantId;
         const selfClass = isSelf 
             ? "border-primary/50 text-primary dark:border-primary-dark/50 dark:text-primary-dark font-bold bg-primary/5 dark:bg-primary-dark/5" 
-            : "border-outline-light text-txtlight/80 dark:border-muted-slate/20 dark:text-txtdark/80 bg-surface-light/40 dark:bg-surface-dark/40";
+            : "border-outline-light text-text-light/80 dark:border-muted-slate/20 dark:text-text-dark/80 bg-surface-light/40 dark:bg-surface-dark/40";
         
         return `
             <span class="px-2.5 py-1 rounded-lg border flex items-center gap-1.5 ${selfClass}">
-                <span class="material-symbols-outlined text-[12px] leading-none text-muted-slate dark:text-txtdark/50">visibility</span>
+                <span class="material-symbols-outlined text-[12px] leading-none text-muted-slate dark:text-text-dark/50">visibility</span>
                 ${escapeHTML(s.displayName)}
             </span>
         `;
@@ -635,7 +635,7 @@ function renderHistoryStream() {
 
     if (state.history.length === 0) {
         container.innerHTML = `
-            <div class="flex-1 flex flex-col items-center justify-center p-6 text-center text-xs text-muted-slate/50 dark:text-txtdark/30">
+            <div class="flex-1 flex flex-col items-center justify-center p-6 text-center text-xs text-muted-slate/50 dark:text-text-dark/30">
                 <span class="material-symbols-outlined text-3xl mb-1.5 opacity-40">history</span>
                 <span>No completed estimates yet in this session.</span>
             </div>
@@ -657,8 +657,8 @@ function renderHistoryStream() {
                 
                 <div class="flex justify-between items-start pl-2 gap-2">
                     <div class="flex flex-col min-w-0">
-                        <span class="text-xs font-bold text-txtlight dark:text-txtdark truncate leading-tight group-hover:text-primary dark:group-hover:text-primary-dark transition-colors">${escapeHTML(h.storyName)}</span>
-                        <span class="text-[9px] text-muted-slate/75 dark:text-txtdark/40 font-semibold font-mono tracking-wider mt-1 flex items-center gap-1">
+                        <span class="text-xs font-bold text-text-light dark:text-text-dark truncate leading-tight group-hover:text-primary dark:group-hover:text-primary-dark transition-colors">${escapeHTML(h.storyName)}</span>
+                        <span class="text-[9px] text-muted-slate/75 dark:text-text-dark/40 font-semibold font-mono tracking-wider mt-1 flex items-center gap-1">
                             <span class="material-symbols-outlined text-[10px] leading-none">schedule</span> ${timeStr}
                         </span>
                     </div>
@@ -670,8 +670,8 @@ function renderHistoryStream() {
                 </div>
                 
                 <!-- Individual voter details list -->
-                <div class="pl-2 pt-1 border-t border-outline-light/10 dark:border-muted-slate/5 text-[10px] text-muted-slate dark:text-txtdark/50 flex flex-wrap gap-x-2 gap-y-0.5 font-mono select-none">
-                    <span class="font-sans font-bold text-[9px] uppercase tracking-wider text-muted-slate/60 dark:text-txtdark/30">Votes:</span>
+                <div class="pl-2 pt-1 border-t border-outline-light/10 dark:border-muted-slate/5 text-[10px] text-muted-slate dark:text-text-dark/50 flex flex-wrap gap-x-2 gap-y-0.5 font-mono select-none">
+                    <span class="font-sans font-bold text-[9px] uppercase tracking-wider text-muted-slate/60 dark:text-text-dark/30">Votes:</span>
                     ${h.votes && h.votes.length > 0 
                         ? h.votes.map(v => `<span class="bg-surface-light dark:bg-surface-dark px-1.5 py-0.5 rounded border border-outline-light/20 dark:border-muted-slate/10">${escapeHTML(v.displayName)}:${v.vote}</span>`).join('')
                         : '<span class="italic text-muted-slate/40">none</span>'
@@ -694,7 +694,7 @@ function renderEstimationDeck() {
         // Arched in light, sharp in dark. Active cards scale slightly to hover.
         const modeClass = isSelected 
             ? "border-primary bg-primary text-white dark:border-primary-dark dark:bg-primary-dark dark:text-background-dark shadow-md scale-105"
-            : "border-outline-light bg-surface-light text-txtlight hover:border-primary hover:-translate-y-1 dark:border-muted-slate/30 dark:bg-surface-dark dark:text-txtdark dark:hover:border-primary-dark";
+            : "border-outline-light bg-surface-light text-text-light hover:border-primary hover:-translate-y-1 dark:border-muted-slate/30 dark:bg-surface-dark dark:text-text-dark dark:hover:border-primary-dark";
         
         const frameClass = "rounded-t-[14px] rounded-b-[4px]";
 
@@ -817,10 +817,10 @@ function renderVotersGrid(voters) {
                         <span class="material-symbols-outlined text-sm font-bold">check</span>
                     </div>
                  </div>
-                 <div class="text-[8px] text-center text-muted-slate/70 dark:text-txtdark/40 font-mono font-bold uppercase tracking-tighter">LOCKED</div>
+                 <div class="text-[8px] text-center text-muted-slate/70 dark:text-text-dark/40 font-mono font-bold uppercase tracking-tighter">LOCKED</div>
                </div>`
-            : `<div class="w-full h-full flex flex-col justify-between p-2 bg-surface-light/95 border-2 border-dashed border-primary/30 text-muted-slate dark:bg-surface-dark dark:border-primary-dark/30 dark:text-txtdark/50 ${frameClass} shadow-inner">
-                  <div class="text-[7px] font-extrabold tracking-wider uppercase text-muted-slate/50 dark:text-txtdark/30">WAITING</div>
+            : `<div class="w-full h-full flex flex-col justify-between p-2 bg-surface-light/95 border-2 border-dashed border-primary/30 text-muted-slate dark:bg-surface-dark dark:border-primary-dark/30 dark:text-text-dark/50 ${frameClass} shadow-inner">
+                  <div class="text-[7px] font-extrabold tracking-wider uppercase text-muted-slate/50 dark:text-text-dark/30">WAITING</div>
                   <div class="flex justify-center py-1 text-primary/30 dark:text-primary-dark/30">
                      <span class="material-symbols-outlined text-base leading-none animate-pulse">hourglass_empty</span>
                   </div>
@@ -867,10 +867,10 @@ function renderVotersGrid(voters) {
                 <!-- Participant Name Details -->
                 <div class="flex flex-col items-center text-center w-full">
                     <div class="flex items-center justify-center gap-0.5 w-full">
-                        <span class="font-bold text-[10px] truncate max-w-[50px] sm:max-w-[70px] text-txtlight dark:text-txtdark">${v.displayName}</span>
+                        <span class="font-bold text-[10px] truncate max-w-[50px] sm:max-w-[70px] text-text-light dark:text-text-dark">${v.displayName}</span>
                         ${isSelf ? `<span class="text-[7px] bg-primary/20 text-primary dark:bg-primary-dark/20 dark:text-primary-dark px-1 py-0.2 rounded font-semibold uppercase font-mono scale-90 leading-none">You</span>` : ''}
                     </div>
-                    <div class="flex items-center gap-0.5 text-[8px] text-muted-slate dark:text-txtdark/45 font-mono leading-none">
+                    <div class="flex items-center gap-0.5 text-[8px] text-muted-slate dark:text-text-dark/45 font-mono leading-none">
                         ${isHost ? `<span class="material-symbols-outlined text-[8px] leading-none text-amber-500" style="font-variation-settings: 'FILL' 1;">stars</span> Host` : `Voter`}
                     </div>
                 </div>
@@ -1150,7 +1150,7 @@ function showToast(message, type = 'info') {
     if (!container) return;
     const toast = document.createElement('div');
     
-    let colorClass = 'bg-white text-txtlight border-outline-light/75 dark:bg-surface-dark dark:text-txtdark dark:border-muted-slate/30';
+    let colorClass = 'bg-white text-text-light border-outline-light/75 dark:bg-surface-dark dark:text-text-dark dark:border-muted-slate/30';
     let icon = 'info';
 
     if (type === 'success') {

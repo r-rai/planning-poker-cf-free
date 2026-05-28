@@ -30,8 +30,8 @@
                         "background-dark": "#08080C",
                         "surface-light": "#F4EFE6",
                         "surface-dark": "#12131C",
-                        "txtlight": "#1A1816",
-                        "txtdark": "#E8E9F3",
+                        "text-light": "#1A1816",
+                        "text-dark": "#E8E9F3",
                         "muted-slate": "#5B5F77",
                         "outline-light": "#E5D3B3",
                     },
@@ -62,7 +62,7 @@
     <link rel="stylesheet" href="/static/app.css">
     <script src="/static/app.js" defer></script>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-txtlight dark:text-txtdark min-h-screen flex flex-col font-display selection:bg-primary/20 dark:selection:bg-primary-dark/20 transition-all duration-300">
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark min-h-screen flex flex-col font-display selection:bg-primary/20 dark:selection:bg-primary-dark/20 transition-all duration-300">
 
     <!-- Premium Navigation Header -->
     <header class="flex items-center justify-between border-b border-surface-light dark:border-muted-slate/20 px-6 md:px-12 py-4 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
@@ -70,7 +70,7 @@
             <div class="w-8 h-8 rounded-lg bg-primary/10 dark:bg-primary-dark/10 text-primary dark:text-primary-dark flex items-center justify-center">
                 <span class="material-symbols-outlined leading-none text-2xl font-bold" style="font-variation-settings: 'FILL' 1;">spa</span>
             </div>
-            <h2 class="text-txtlight dark:text-txtdark text-2xl font-normal leading-none tracking-tight font-heading">
+            <h2 class="text-text-light dark:text-text-dark text-2xl font-normal leading-none tracking-tight font-heading">
                 Planning Poker
             </h2>
         </a>
@@ -113,26 +113,26 @@
                 <div class="inline-flex items-center gap-2 text-primary dark:text-primary-dark text-sm font-bold tracking-widest uppercase">
                     <span class="material-symbols-outlined text-base">architecture</span> Ancient Wisdom · Modern Code
                 </div>
-                <h1 class="text-5xl md:text-7xl font-normal leading-[1.05] tracking-tight text-txtlight dark:text-txtdark font-heading">
+                <h1 class="text-5xl md:text-7xl font-normal leading-[1.05] tracking-tight text-text-light dark:text-text-dark font-heading">
                     Bridging <span class="text-primary dark:text-primary-dark">Heritage</span> & estimation.
                 </h1>
-                <p class="text-base text-muted-slate dark:text-txtdark/70 leading-relaxed max-w-lg">
+                <p class="text-base text-muted-slate dark:text-text-dark/70 leading-relaxed max-w-lg">
                     Estimate Scrum stories with zero friction, zero signups, and beautiful high-performance web engineering. Powered entirely by Cloudflare Free Tier serverless networks.
                 </p>
                 <div class="flex items-center gap-6 mt-2 border-t border-outline-light/30 dark:border-muted-slate/20 pt-6">
                     <div class="flex flex-col">
                         <span class="text-2xl font-bold font-heading text-primary dark:text-primary-dark">10ms</span>
-                        <span class="text-xs text-muted-slate dark:text-txtdark/60">Execution Latency</span>
+                        <span class="text-xs text-muted-slate dark:text-text-dark/60">Execution Latency</span>
                     </div>
                     <div class="w-px h-10 bg-outline-light/30 dark:bg-muted-slate/20"></div>
                     <div class="flex flex-col">
                         <span class="text-2xl font-bold font-heading text-primary dark:text-primary-dark">Free</span>
-                        <span class="text-xs text-muted-slate dark:text-txtdark/60">Forever Hosting</span>
+                        <span class="text-xs text-muted-slate dark:text-text-dark/60">Forever Hosting</span>
                     </div>
                     <div class="w-px h-10 bg-outline-light/30 dark:bg-muted-slate/20"></div>
                     <div class="flex flex-col">
                         <span class="text-2xl font-bold font-heading text-primary dark:text-primary-dark">Global</span>
-                        <span class="text-xs text-muted-slate dark:text-txtdark/60">Edge Distributed</span>
+                        <span class="text-xs text-muted-slate dark:text-text-dark/60">Edge Distributed</span>
                     </div>
                 </div>
             </div>
@@ -145,10 +145,10 @@
                 
                 <!-- Panel Tab Headers -->
                 <div class="flex border-b border-outline-light/30 dark:border-muted-slate/10 pb-4 mb-6">
-                    <button id="tab-join-btn" onclick="switchLandingTab('join')" class="flex-1 text-center py-2.5 font-heading text-xl transition-all border-b-2 border-primary dark:border-primary-dark text-txtlight dark:text-txtdark">
+                    <button id="tab-join-btn" onclick="switchLandingTab('join')" class="flex-1 text-center py-2.5 font-heading text-xl transition-all border-b-2 border-primary dark:border-primary-dark text-text-light dark:text-text-dark">
                         Join Session
                     </button>
-                    <button id="tab-create-btn" onclick="switchLandingTab('create')" class="flex-1 text-center py-2.5 font-heading text-xl transition-all border-b-2 border-transparent text-muted-slate dark:text-txtdark/55 hover:text-txtlight dark:hover:text-txtdark">
+                    <button id="tab-create-btn" onclick="switchLandingTab('create')" class="flex-1 text-center py-2.5 font-heading text-xl transition-all border-b-2 border-transparent text-muted-slate dark:text-text-dark/55 hover:text-text-light dark:hover:text-text-dark">
                         Create Session
                     </button>
                 </div>
@@ -156,11 +156,11 @@
                 <!-- Form: JOIN SESSION -->
                 <form id="join-form" onsubmit="handleJoinSubmit(event)" class="flex flex-col gap-5">
                     <div class="flex flex-col gap-2">
-                        <label for="join-code" class="text-xs font-semibold uppercase tracking-wider text-muted-slate dark:text-txtdark/60">Room Invitation Code</label>
+                        <label for="join-code" class="text-xs font-semibold uppercase tracking-wider text-muted-slate dark:text-text-dark/60">Room Invitation Code</label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-muted-slate/85">vpn_key</span>
                             <input type="text" id="join-code" placeholder="Enter 6-char Code (e.g. ABCD12)" required maxlength="6"
-                                class="w-full pl-12 pr-4 py-3.5 bg-background-light dark:bg-background-dark border border-outline-light dark:border-muted-slate/30 rounded-xl font-mono text-lg uppercase tracking-widest text-txtlight dark:text-txtdark focus:border-primary dark:focus:border-primary-dark focus:ring-0 transition-colors">
+                                class="w-full pl-12 pr-4 py-3.5 bg-background-light dark:bg-background-dark border border-outline-light dark:border-muted-slate/30 rounded-xl font-mono text-lg uppercase tracking-widest text-text-light dark:text-text-dark focus:border-primary dark:focus:border-primary-dark focus:ring-0 transition-colors">
                         </div>
                     </div>
                     
@@ -172,20 +172,20 @@
                 <!-- Form: CREATE SESSION (Hidden by default) -->
                 <form id="create-form" onsubmit="handleCreateSubmit(event)" class="hidden flex flex-col gap-5">
                     <div class="flex flex-col gap-2">
-                        <label for="create-name" class="text-xs font-semibold uppercase tracking-wider text-muted-slate dark:text-txtdark/60">Session Name</label>
+                        <label for="create-name" class="text-xs font-semibold uppercase tracking-wider text-muted-slate dark:text-text-dark/60">Session Name</label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-muted-slate/85">meeting_room</span>
                             <input type="text" id="create-name" placeholder="Sprint Estimation Session" required maxlength="50"
-                                class="w-full pl-12 pr-4 py-3.5 bg-background-light dark:bg-background-dark border border-outline-light dark:border-muted-slate/30 rounded-xl text-txtlight dark:text-txtdark focus:border-primary dark:focus:border-primary-dark focus:ring-0 transition-colors">
+                                class="w-full pl-12 pr-4 py-3.5 bg-background-light dark:bg-background-dark border border-outline-light dark:border-muted-slate/30 rounded-xl text-text-light dark:text-text-dark focus:border-primary dark:focus:border-primary-dark focus:ring-0 transition-colors">
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-2">
-                        <label for="create-deck" class="text-xs font-semibold uppercase tracking-wider text-muted-slate dark:text-txtdark/60">Estimation Card Deck</label>
+                        <label for="create-deck" class="text-xs font-semibold uppercase tracking-wider text-muted-slate dark:text-text-dark/60">Estimation Card Deck</label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-muted-slate/85">style</span>
                             <select id="create-deck" 
-                                class="w-full pl-12 pr-10 py-3.5 bg-background-light dark:bg-background-dark border border-outline-light dark:border-muted-slate/30 rounded-xl text-txtlight dark:text-txtdark focus:border-primary dark:focus:border-primary-dark focus:ring-0 transition-colors appearance-none">
+                                class="w-full pl-12 pr-10 py-3.5 bg-background-light dark:bg-background-dark border border-outline-light dark:border-muted-slate/30 rounded-xl text-text-light dark:text-text-dark focus:border-primary dark:focus:border-primary-dark focus:ring-0 transition-colors appearance-none">
                                 <option value="fibonacci">Fibonacci (0, 0.5, 1, 2, 3, 5, 8, 13, 21, ?, ☕)</option>
                                 <option value="tshirt">T-Shirt Sizing (XS, S, M, L, XL, XXL, ?, ☕)</option>
                                 <option value="custom">Standard Sequence (1 to 10, ?, ☕)</option>
@@ -207,26 +207,26 @@
                 <div class="absolute -top-12 -left-12 w-32 h-32 bg-primary/5 dark:bg-primary-dark/5 rounded-full blur-2xl pointer-events-none"></div>
                 
                 <div class="flex flex-col items-center text-center gap-2 mb-6">
-                    <h2 class="text-3xl font-normal tracking-tight font-heading text-txtlight dark:text-txtdark">
+                    <h2 class="text-3xl font-normal tracking-tight font-heading text-text-light dark:text-text-dark">
                         Who's Joining?
                     </h2>
-                    <p class="text-xs text-muted-slate dark:text-txtdark/60 uppercase tracking-widest font-mono">
+                    <p class="text-xs text-muted-slate dark:text-text-dark/60 uppercase tracking-widest font-mono">
                         Room invitation: <span id="lobby-code-badge" class="font-bold text-primary dark:text-primary-dark">------</span>
                     </p>
                 </div>
 
                 <form onsubmit="handleLobbySubmit(event)" class="flex flex-col gap-6">
                     <div class="flex flex-col gap-2">
-                        <label for="lobby-name" class="text-xs font-semibold uppercase tracking-wider text-muted-slate dark:text-txtdark/60">Your Display Name</label>
+                        <label for="lobby-name" class="text-xs font-semibold uppercase tracking-wider text-muted-slate dark:text-text-dark/60">Your Display Name</label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-muted-slate/85">person</span>
                             <input type="text" id="lobby-name" placeholder="e.g. Laxmi or John" required maxlength="30"
-                                class="w-full pl-12 pr-4 py-3.5 bg-background-light dark:bg-background-dark border border-outline-light dark:border-muted-slate/30 rounded-xl text-txtlight dark:text-txtdark focus:border-primary dark:focus:border-primary-dark focus:ring-0 transition-colors">
+                                class="w-full pl-12 pr-4 py-3.5 bg-background-light dark:bg-background-dark border border-outline-light dark:border-muted-slate/30 rounded-xl text-text-light dark:text-text-dark focus:border-primary dark:focus:border-primary-dark focus:ring-0 transition-colors">
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-2">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-muted-slate dark:text-txtdark/60">Choose Collaboration Role</span>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-muted-slate dark:text-text-dark/60">Choose Collaboration Role</span>
                         <div class="grid grid-cols-2 gap-4">
                             <!-- Role: Voter -->
                             <label class="relative flex flex-col p-4 rounded-xl border border-outline-light dark:border-muted-slate/30 bg-background-light dark:bg-background-dark hover:border-primary dark:hover:border-primary-dark cursor-pointer transition-all">
@@ -236,8 +236,8 @@
                                         <span class="material-symbols-outlined text-2xl font-bold">how_to_vote</span>
                                         <span class="material-symbols-outlined text-lg hidden peer-checked:inline">check_circle</span>
                                     </div>
-                                    <span class="font-bold text-sm text-txtlight dark:text-txtdark leading-tight mt-1">Estimator</span>
-                                    <span class="text-[10px] text-muted-slate dark:text-txtdark/50 leading-snug">Voter role. Actively estimate user stories.</span>
+                                    <span class="font-bold text-sm text-text-light dark:text-text-dark leading-tight mt-1">Estimator</span>
+                                    <span class="text-[10px] text-muted-slate dark:text-text-dark/50 leading-snug">Voter role. Actively estimate user stories.</span>
                                 </div>
                             </label>
                             <!-- Role: Spectator -->
@@ -248,15 +248,15 @@
                                         <span class="material-symbols-outlined text-2xl font-bold">visibility</span>
                                         <span class="material-symbols-outlined text-lg hidden peer-checked:inline">check_circle</span>
                                     </div>
-                                    <span class="font-bold text-sm text-txtlight dark:text-txtdark leading-tight mt-1">Observer</span>
-                                    <span class="text-[10px] text-muted-slate dark:text-txtdark/50 leading-snug">Spectator. Review, host, or audit planning.</span>
+                                    <span class="font-bold text-sm text-text-light dark:text-text-dark leading-tight mt-1">Observer</span>
+                                    <span class="text-[10px] text-muted-slate dark:text-text-dark/50 leading-snug">Spectator. Review, host, or audit planning.</span>
                                 </div>
                             </label>
                         </div>
                     </div>
 
                     <div class="flex gap-4 mt-2">
-                        <button type="button" onclick="resetToHome(event)" class="flex-1 py-3.5 rounded-xl border border-outline-light dark:border-muted-slate/30 hover:bg-surface-light dark:hover:bg-surface-dark text-muted-slate dark:text-txtdark/70 font-semibold tracking-wide uppercase transition-colors text-center text-sm">
+                        <button type="button" onclick="resetToHome(event)" class="flex-1 py-3.5 rounded-xl border border-outline-light dark:border-muted-slate/30 hover:bg-surface-light dark:hover:bg-surface-dark text-muted-slate dark:text-text-dark/70 font-semibold tracking-wide uppercase transition-colors text-center text-sm">
                             Back
                         </button>
                         <button type="submit" class="flex-2 w-full py-3.5 rounded-xl bg-primary dark:bg-primary-dark hover:opacity-95 text-white dark:text-background-dark font-bold tracking-wide uppercase transition-all shadow-md hover:shadow-lg dark:hover:shadow-neon-lg flex items-center justify-center gap-2 text-sm">
@@ -280,7 +280,7 @@
                     <div class="flex flex-col gap-1 z-10">
                         <span class="text-[10px] font-semibold uppercase tracking-widest text-primary dark:text-primary-dark font-mono">Current estimation story</span>
                         <div class="flex items-center gap-2.5">
-                            <h2 id="active-story-name" class="text-xl md:text-2xl font-normal font-heading leading-tight text-txtlight dark:text-txtdark">
+                            <h2 id="active-story-name" class="text-xl md:text-2xl font-normal font-heading leading-tight text-text-light dark:text-text-dark">
                                 First Story
                             </h2>
                             <!-- Edit Story (Visible only to Host) -->
@@ -297,7 +297,7 @@
                             <span class="material-symbols-outlined text-sm leading-none font-bold">visibility</span> Reveal All
                         </button>
                         <!-- Reset Votes -->
-                        <button id="reset-votes-btn" onclick="triggerReset()" class="px-3.5 py-2 rounded-lg bg-surface-light dark:bg-surface-dark border border-outline-light/50 dark:border-muted-slate/20 hover:bg-primary/10 dark:hover:bg-primary-dark/10 font-bold text-xs uppercase text-txtlight dark:text-txtdark tracking-wider transition-all flex items-center gap-1.5">
+                        <button id="reset-votes-btn" onclick="triggerReset()" class="px-3.5 py-2 rounded-lg bg-surface-light dark:bg-surface-dark border border-outline-light/50 dark:border-muted-slate/20 hover:bg-primary/10 dark:hover:bg-primary-dark/10 font-bold text-xs uppercase text-text-light dark:text-text-dark tracking-wider transition-all flex items-center gap-1.5">
                             <span class="material-symbols-outlined text-sm leading-none font-bold">restart_alt</span> Reset Round
                         </button>
                         <!-- Complete story estimation and save to history -->
@@ -310,10 +310,10 @@
                 <!-- Voters Roundtable Arena (Flex-1 and Centered) -->
                 <div class="flex-1 flex flex-col justify-center gap-2 min-h-0">
                     <div class="flex items-center justify-between shrink-0">
-                        <h3 class="text-lg font-normal font-heading tracking-tight text-txtlight dark:text-txtdark flex items-center gap-2">
+                        <h3 class="text-lg font-normal font-heading tracking-tight text-text-light dark:text-text-dark flex items-center gap-2">
                             Poker Roundtable <span id="voter-count-badge" class="px-2 py-0.5 rounded-full text-xs font-semibold bg-surface-light dark:bg-surface-dark text-muted-slate">-</span>
                         </h3>
-                        <span id="voting-status-text" class="text-xs text-muted-slate dark:text-txtdark/50 font-semibold tracking-wider uppercase">Waiting for estimates...</span>
+                        <span id="voting-status-text" class="text-xs text-muted-slate dark:text-text-dark/50 font-semibold tracking-wider uppercase">Waiting for estimates...</span>
                     </div>
 
                     <!-- Roundtable Outer Container (Reduced margins and centered aspect ratio) -->
@@ -351,7 +351,7 @@
                 
                 <!-- Observers / Spectators List -->
                 <div class="bg-surface-light/30 dark:bg-surface-dark/30 border border-outline-light/40 dark:border-muted-slate/20 p-4 rounded-2xl flex flex-col gap-3 shrink-0">
-                    <h3 class="text-base font-normal font-heading tracking-tight text-txtlight dark:text-txtdark flex items-center gap-1.5">
+                    <h3 class="text-base font-normal font-heading tracking-tight text-text-light dark:text-text-dark flex items-center gap-1.5">
                         Observers <span id="spectator-count-badge" class="px-2 py-0.5 rounded bg-surface-light dark:bg-surface-dark text-xs font-bold font-mono">-</span>
                     </h3>
                     <div id="spectators-list" class="flex flex-wrap gap-2 text-xs">
@@ -362,7 +362,7 @@
                 <!-- Collapsible Story History Stream -->
                 <div class="bg-surface-light/30 dark:bg-surface-dark/30 border border-outline-light/40 dark:border-muted-slate/20 p-4 rounded-2xl flex-1 flex flex-col gap-3 lg:overflow-hidden">
                     <div class="flex items-center justify-between pb-2 border-b border-outline-light/20 dark:border-muted-slate/10 shrink-0">
-                        <h3 class="text-base font-normal font-heading tracking-tight text-txtlight dark:text-txtdark flex items-center gap-1.5">
+                        <h3 class="text-base font-normal font-heading tracking-tight text-text-light dark:text-text-dark flex items-center gap-1.5">
                             Estimation History
                         </h3>
                         <!-- Export Button -->
@@ -383,9 +383,9 @@
     </main>
 
     <!-- Footer -->
-    <footer class="mt-auto border-t border-surface-light dark:border-muted-slate/20 py-6 px-6 md:px-12 text-center text-xs text-muted-slate dark:text-txtdark/40 bg-background-light dark:bg-background-dark/80 transition-all duration-300">
+    <footer class="mt-auto border-t border-surface-light dark:border-muted-slate/20 py-6 px-6 md:px-12 text-center text-xs text-muted-slate dark:text-text-dark/40 bg-background-light dark:bg-background-dark/80 transition-all duration-300">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>Made by <span class="font-semibold text-txtlight dark:text-txtdark">Ravi Rai</span> — bridging heritage & the future.</p>
+            <p>Made by <span class="font-semibold text-text-light dark:text-text-dark">Ravi Rai</span> — bridging heritage & the future.</p>
             <p>© 2026. Global high-performance Scrum tools.</p>
         </div>
     </footer>
@@ -395,16 +395,16 @@
     <!-- Story Title Edit Modal -->
     <dialog id="story-edit-dialog" class="bg-transparent backdrop:bg-black/50 backdrop:backdrop-blur-sm p-4 w-full max-w-md focus-visible:outline-none">
         <div class="bg-background-light dark:bg-surface-dark p-6 rounded-2xl border border-outline-light dark:border-muted-slate/30 shadow-xl flex flex-col gap-4 jali-pattern">
-            <h3 class="text-2xl font-normal font-heading text-txtlight dark:text-txtdark">Set Active Estimation Story</h3>
+            <h3 class="text-2xl font-normal font-heading text-text-light dark:text-text-dark">Set Active Estimation Story</h3>
             <div class="flex flex-col gap-2">
-                <label for="modal-story-name" class="text-xs font-semibold uppercase text-muted-slate dark:text-txtdark/50 tracking-wider">Story Name / Jira ID</label>
+                <label for="modal-story-name" class="text-xs font-semibold uppercase text-muted-slate dark:text-text-dark/50 tracking-wider">Story Name / Jira ID</label>
                 <input type="text" id="modal-story-name" placeholder="JIRA-101: Fix Payment Gateway Integration" maxlength="100"
-                    class="w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-outline-light dark:border-muted-slate/30 rounded-xl text-txtlight dark:text-txtdark focus:border-primary dark:focus:border-primary-dark focus:ring-0 transition-colors">
+                    class="w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-outline-light dark:border-muted-slate/30 rounded-xl text-text-light dark:text-text-dark focus:border-primary dark:focus:border-primary-dark focus:ring-0 transition-colors">
             </div>
             <div class="flex flex-col gap-2">
-                <label for="modal-story-timer" class="text-xs font-semibold uppercase text-muted-slate dark:text-txtdark/50 tracking-wider">Round Voting Timer (Optional)</label>
+                <label for="modal-story-timer" class="text-xs font-semibold uppercase text-muted-slate dark:text-text-dark/50 tracking-wider">Round Voting Timer (Optional)</label>
                 <select id="modal-story-timer" 
-                    class="w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-outline-light dark:border-muted-slate/30 rounded-xl text-txtlight dark:text-txtdark focus:border-primary dark:focus:border-primary-dark focus:ring-0 transition-colors">
+                    class="w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-outline-light dark:border-muted-slate/30 rounded-xl text-text-light dark:text-text-dark focus:border-primary dark:focus:border-primary-dark focus:ring-0 transition-colors">
                     <option value="none">No Timer</option>
                     <option value="30">30 Seconds</option>
                     <option value="60">60 Seconds (1 Minute)</option>
@@ -413,7 +413,7 @@
                 </select>
             </div>
             <div class="flex justify-end gap-3 mt-2">
-                <button onclick="closeStoryEditModal()" class="px-4 py-2.5 rounded-lg border border-outline-light dark:border-muted-slate/30 hover:bg-surface-light dark:hover:bg-surface-dark text-xs font-bold uppercase tracking-wider text-muted-slate dark:text-txtdark/70">Cancel</button>
+                <button onclick="closeStoryEditModal()" class="px-4 py-2.5 rounded-lg border border-outline-light dark:border-muted-slate/30 hover:bg-surface-light dark:hover:bg-surface-dark text-xs font-bold uppercase tracking-wider text-muted-slate dark:text-text-dark/70">Cancel</button>
                 <button onclick="submitStoryEdit()" class="px-5 py-2.5 rounded-lg bg-primary dark:bg-primary-dark hover:opacity-95 text-white dark:text-background-dark font-bold text-xs uppercase tracking-wider">Save Story</button>
             </div>
         </div>
@@ -422,25 +422,25 @@
     <!-- Complete Estimate Modal -->
     <dialog id="complete-estimate-dialog" class="bg-transparent backdrop:bg-black/50 backdrop:backdrop-blur-sm p-4 w-full max-w-md focus-visible:outline-none">
         <div class="bg-background-light dark:bg-surface-dark p-6 rounded-2xl border border-outline-light dark:border-muted-slate/30 shadow-xl flex flex-col gap-4 jali-pattern">
-            <h3 class="text-2xl font-normal font-heading text-txtlight dark:text-txtdark">Complete Round</h3>
-            <p class="text-sm text-muted-slate dark:text-txtdark/70">Confirm the final agreed story estimate below. This will log the round and save it to the session history archive.</p>
+            <h3 class="text-2xl font-normal font-heading text-text-light dark:text-text-dark">Complete Round</h3>
+            <p class="text-sm text-muted-slate dark:text-text-dark/70">Confirm the final agreed story estimate below. This will log the round and save it to the session history archive.</p>
             
             <div class="flex flex-col gap-3 my-2">
                 <div class="flex justify-between items-center text-sm">
-                    <span class="font-semibold text-muted-slate dark:text-txtdark/60">Story Title:</span>
-                    <span id="modal-complete-story-title" class="font-bold text-txtlight dark:text-txtdark truncate max-w-[200px]">-</span>
+                    <span class="font-semibold text-muted-slate dark:text-text-dark/60">Story Title:</span>
+                    <span id="modal-complete-story-title" class="font-bold text-text-light dark:text-text-dark truncate max-w-[200px]">-</span>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <label for="modal-final-estimate" class="text-xs font-semibold uppercase text-muted-slate dark:text-txtdark/50 tracking-wider">Final Agreed Estimate Value</label>
+                    <label for="modal-final-estimate" class="text-xs font-semibold uppercase text-muted-slate dark:text-text-dark/50 tracking-wider">Final Agreed Estimate Value</label>
                     <div class="relative">
                         <input type="text" id="modal-final-estimate" placeholder="8" maxlength="10"
-                            class="w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-outline-light dark:border-muted-slate/30 rounded-xl text-txtlight dark:text-txtdark focus:border-primary dark:focus:border-primary-dark focus:ring-0 transition-colors">
+                            class="w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-outline-light dark:border-muted-slate/30 rounded-xl text-text-light dark:text-text-dark focus:border-primary dark:focus:border-primary-dark focus:ring-0 transition-colors">
                     </div>
                 </div>
             </div>
             
             <div class="flex justify-end gap-3 mt-2">
-                <button onclick="closeCompleteEstimateModal()" class="px-4 py-2.5 rounded-lg border border-outline-light dark:border-muted-slate/30 hover:bg-surface-light dark:hover:bg-surface-dark text-xs font-bold uppercase tracking-wider text-muted-slate dark:text-txtdark/70">Cancel</button>
+                <button onclick="closeCompleteEstimateModal()" class="px-4 py-2.5 rounded-lg border border-outline-light dark:border-muted-slate/30 hover:bg-surface-light dark:hover:bg-surface-dark text-xs font-bold uppercase tracking-wider text-muted-slate dark:text-text-dark/70">Cancel</button>
                 <button onclick="submitCompleteEstimate()" class="px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider">Log & Save</button>
             </div>
         </div>

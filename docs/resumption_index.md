@@ -6,9 +6,9 @@ This document serves as an immutable bridge of context for the **Indic Futurism 
 
 ## 🆔 Conversation & State Metadata
 *   **Active Developer:** Ravi
-*   **Finalized Conversation ID:** `239d391a-315b-4f14-9630-da7c978f2652`
-*   **State History Storage:** `/home/ravi/.gemini/antigravity-cli/brain/239d391a-315b-4f14-9630-da7c978f2652/`
-*   **Latest Release Tag:** `v1.2.0 (Hardened Production & Auto-Purge Release)`
+*   **Finalized Conversation ID:** `f12dc623-6361-4f02-8ce9-b2e7b45f6aa0`
+*   **State History Storage:** `/home/ravi/.gemini/antigravity-cli/brain/f12dc623-6361-4f02-8ce9-b2e7b45f6aa0/`
+*   **Latest Release Tag:** `v1.3.0 (Dynamic Team Scaling & Layout Architecture Refactor)`
 
 ---
 
@@ -39,3 +39,7 @@ Refer to these files to immediately understand the current state of the applicat
 - [x] **Security Hardening:** Tight CSP headers (no `unsafe-inline`), secure input validations, and continuous refill Token-Bucket rate-limiting.
 - [x] **Zero-Leak D1 Configuration:** Cleaned commands to execute by remote DB name rather than private IDs.
 - [x] **Cron Maintenance:** Automated sweeps executing every 6 hours to prune sessions older than 6 hours.
+- [x] **Dynamic Seating & Aspect Ratios:** Dynamic scaling of card sizes, spacing, and oval ratios to prevent overlaps on large teams ($N \ge 9$).
+- [x] **Consolidated Sidebar & Transparent Card Deck:** Redesigned screen into a spacious 2-column layout (spacious Left roundtable arena, combined Observers/History Right sidebar) with invisible floating bottom cards tray.
+- [x] **Collective Consensus Automatic Reveal:** Fully resilient automatic reveal that allows any estimator browser to safely call `/reveal` once all votes are locked, bypassing background tab suspensions.
+- [x] **Wrangler Core Update:** Updated dev tools to the latest Wrangler CLI (`^4.95.0`).

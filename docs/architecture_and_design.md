@@ -129,21 +129,31 @@ $$x_i = 50\% + R_x \cdot \cos(\theta_i)$$
 
 $$y_i = 50\% + R_y \cdot \sin(\theta_i)$$
 
-Where:
-*   $R_x$ (Horizontal Radius) is set dynamically to **`38%`** (leaving padding for participant cards).
-*   $R_y$ (Vertical Radius) is set dynamically to **`34%`** to match typical desktop viewport aspect ratios.
+Where horizontal ($R_x$) and vertical ($R_y$) ellipse radii, as well as player card sizes, are auto-scaled dynamically based on the total active voter count ($N$) to prevent card overlaps:
+*   **Small Teams ($N \le 5$):** $R_x = 43\%$, $R_y = 39\%$, using large cards (`w-14 sm:w-16 md:w-20`).
+*   **Medium Teams ($6 \le N \le 8$):** $R_x = 43\%$, $R_y = 39\%$, using compact cards (`w-12 sm:w-13 md:w-15`).
+*   **Large Teams ($N \ge 9$):** $R_x = 44\%$, $R_y = 40\%$ (pushed slightly outward), using micro cards (`w-10 sm:w-11 md:w-13`).
 
 ### Layout Implementation (JavaScript)
-The calculation is updated inside the browser rendering pipeline:
+The calculation is updated dynamically inside the rendering pipeline:
 ```javascript
-const angle = (2 * Math.PI * idx) / total - Math.PI / 2;
-const rx = 38; // percentage of half-width
-const ry = 34; // percentage of half-height
+let rx = 43;
+let ry = 39;
+let cardSizeClass = "w-14 sm:w-16 md:w-20";
+
+if (N > 8) {
+    cardSizeClass = "w-10 sm:w-11 md:w-13";
+    rx = 44;
+    ry = 40;
+} else if (N > 5) {
+    cardSizeClass = "w-12 sm:w-13 md:w-15";
+    rx = 43;
+    ry = 39;
+}
+
+const angle = (i * 2 * Math.PI) / N - Math.PI / 2;
 const x = 50 + rx * Math.cos(angle);
 const y = 50 + ry * Math.sin(angle);
-
-seatElement.style.left = `${x}%`;
-seatElement.style.top = `${y}%`;
 ```
 
 ---
@@ -170,6 +180,12 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 ```
+
+### 3. Collective Consensus Automatic Reveal (Anti-Throttling Bypass)
+Modern browsers suspend or throttle timer intervals when a browser tab is in the background. If a session Host has their tab in the background when the final votes are cast, their local 5-second countdown timer will freeze or delay, failing to trigger the automatic reveal.
+To circumvent this, the system implements a collective bypass protocol:
+*   **Server-Side (`reveal.js`):** The `/reveal` API allows *any active participant* to trigger a reveal once $100\%$ of active voters have successfully submitted their estimate values. Otherwise, the endpoint remains strictly restricted to the Host.
+*   **Client-Side (`app.js`):** When the local 5-second countdown reaches zero in *any* active estimator's tab, their browser securely invokes the `/reveal` API. The first client to reach zero successfully flips the cards for the entire room, bypassing any background tab delays from the Host.
 
 ---
 

@@ -40,8 +40,19 @@ export async function onRequestPost(context) {
       .bind(sessionId)
       .first();
 
-    if (!hostCheck || hostCheck.id !== participantId) {
-      return new Response(JSON.stringify({ error: "Unauthorized. Only the host can reveal votes.", errorCode: "ERR_UNAUTHORIZED_HOST_ONLY" }), {
+    const isHost = hostCheck && hostCheck.id === participantId;
+
+    // Authorize if everyone has voted (collective consensus automatic reveal)
+    const votersData = await DB.prepare(
+      "SELECT vote FROM participants WHERE session_id = ? AND role = 'voter'"
+    )
+      .bind(sessionId)
+      .all();
+    const voters = votersData.results || [];
+    const hasEveryoneVoted = voters.length > 0 && voters.every(v => v.vote !== null && v.vote !== "");
+
+    if (!isHost && !hasEveryoneVoted) {
+      return new Response(JSON.stringify({ error: "Unauthorized. Only the host can reveal votes before everyone has estimated.", errorCode: "ERR_UNAUTHORIZED_HOST_ONLY" }), {
         status: 403,
         headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
       });

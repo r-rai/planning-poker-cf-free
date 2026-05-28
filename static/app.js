@@ -366,13 +366,14 @@ async function pollSession() {
         const activeVoters = state.participants.filter(p => p.role === 'voter');
         const hasEveryoneVoted = activeVoters.length > 0 && activeVoters.every(v => v.voted);
         if (hasEveryoneVoted && !state.revealed) {
-            if (!state.countdownActive) {
+            if (!state.countdownActive && !state.countdownCompleted) {
                 startRevealCountdown();
             }
         } else {
             if (state.countdownActive) {
                 cancelRevealCountdown();
             }
+            state.countdownCompleted = false;
         }
     } catch (err) {
         console.error("Polling error:", err);
@@ -395,10 +396,12 @@ let countdownTimer = null;
 let clientTimer = null;
 state.countdownActive = false;
 state.countdownSec = 5;
+state.countdownCompleted = false;
 
 function startRevealCountdown() {
     state.countdownActive = true;
     state.countdownSec = 5;
+    state.countdownCompleted = false;
     renderVotersGrid(state.participants.filter(p => p.role === 'voter')); // Redraw grid for countdown status
 
     if (countdownTimer) clearInterval(countdownTimer);
@@ -409,11 +412,11 @@ function startRevealCountdown() {
             clearInterval(countdownTimer);
             countdownTimer = null;
             state.countdownActive = false;
+            state.countdownCompleted = true;
             
-            // Trigger reveal if host
-            if (state.isHost) {
-                triggerReveal();
-            }
+            // Trigger automatic reveal (any active client whose countdown finishes can trigger it once everyone voted)
+            triggerReveal(true);
+            renderTableCenter();
         } else {
             // Update table center countdown
             renderTableCenter();
@@ -428,6 +431,7 @@ function cancelRevealCountdown() {
     }
     state.countdownActive = false;
     state.countdownSec = 5;
+    state.countdownCompleted = false;
     renderGameWorkspace();
 }
 
@@ -444,6 +448,17 @@ function renderTableCenter() {
                 <span class="text-3xl sm:text-4xl font-extrabold font-heading text-primary dark:text-primary-dark">${state.countdownSec}</span>
             </div>
             <div class="text-[8px] sm:text-[9px] uppercase tracking-widest font-extrabold text-white/80 mt-2 font-mono">REVEALING IN...</div>
+        `;
+        return;
+    }
+
+    // 1.5. Countdown finished, votes are being revealed
+    if (state.countdownCompleted && !state.revealed) {
+        el.innerHTML = `
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-dashed border-primary/55 flex flex-col items-center justify-center bg-primary/10 animate-pulse">
+                <span class="material-symbols-outlined text-xs sm:text-sm text-primary dark:text-primary-dark leading-none">sync</span>
+            </div>
+            <div class="text-[7px] sm:text-[8px] uppercase tracking-widest font-bold text-primary dark:text-primary-dark mt-1.5 font-mono">FLIPPING...</div>
         `;
         return;
     }
@@ -772,22 +787,33 @@ function renderVotersGrid(voters) {
 
     if (state.revealed) {
         statusText.innerHTML = `<span class="text-emerald-500 font-bold">Votes revealed!</span>`;
-    } else if (state.countdownActive) {
-        statusText.innerHTML = `<span class="text-primary dark:text-primary-dark font-bold animate-pulse">REVEALING IN ${state.countdownSec}s...</span>`;
-    } else if (hasEveryoneVoted) {
-        statusText.innerHTML = `<span class="text-primary dark:text-primary-dark font-bold animate-bounce">Everyone has voted! Initiating reveal countdown...</span>`;
     } else {
-        const votedCount = voters.filter(v => v.voted).length;
-        statusText.textContent = `Voting in progress: ${votedCount}/${voters.length} voted`;
+        statusText.textContent = "";
     }
 
     // Draw center of table
     renderTableCenter();
 
-    // Radially position seats
+    // Radially position seats and scale cards dynamically for large teams to prevent overlaps
     const N = voters.length;
-    const rx = 44; // horizontal radius in percent
-    const ry = 40; // vertical radius in percent
+    
+    // Auto-scale ellipse radius and card sizes based on player count
+    let rx = 43; // horizontal radius in percent
+    let ry = 39; // vertical radius in percent
+    let cardSizeClass = "w-14 sm:w-16 md:w-20";
+    let isCompact = false;
+    
+    if (N > 8) {
+        cardSizeClass = "w-10 sm:w-11 md:w-13";
+        rx = 44; // push slightly outward for more circumference space
+        ry = 40;
+        isCompact = true;
+    } else if (N > 5) {
+        cardSizeClass = "w-12 sm:w-13 md:w-15";
+        rx = 43;
+        ry = 39;
+        isCompact = true;
+    }
 
     grid.innerHTML = voters.map((v, i) => {
         const isSelf = v.id === state.participantId;
@@ -803,38 +829,38 @@ function renderVotersGrid(voters) {
         const isCardFlipped = showVote ? "card-flipped" : "";
         
         // Border frame aesthetic (arch in both light and dark)
-        const frameClass = "rounded-t-[18px] rounded-b-[6px]";
+        const frameClass = isCompact ? "rounded-t-[12px] rounded-b-[4px]" : "rounded-t-[18px] rounded-b-[6px]";
 
         // Back face (Golden Jali pattern face down)
         const backFaceDecor = v.voted 
-            ? `<div class="w-full h-full flex flex-col justify-between p-2 jali-card-back ${frameClass}">
-                 <div class="flex justify-between items-center w-full">
-                    <span class="text-[8px] font-extrabold text-primary/70 dark:text-primary-dark/85">VOTED</span>
-                    <span class="material-symbols-outlined text-[10px] text-primary dark:text-primary-dark animate-pulse">pending</span>
+            ? `<div class="w-full h-full flex flex-col justify-between p-1.5 md:p-2 jali-card-back ${frameClass}">
+                 <div class="flex justify-between items-center w-full gap-0.5">
+                    <span class="text-[6px] md:text-[8px] font-extrabold text-primary/70 dark:text-primary-dark/85">VOTED</span>
+                    <span class="material-symbols-outlined text-[8px] md:text-[10px] text-primary dark:text-primary-dark animate-pulse">pending</span>
                  </div>
-                 <div class="flex justify-center py-2">
-                    <div class="w-6 h-6 rounded-full bg-primary/10 dark:bg-primary-dark/10 flex items-center justify-center text-primary dark:text-primary-dark">
-                        <span class="material-symbols-outlined text-sm font-bold">check</span>
+                 <div class="flex justify-center py-1">
+                    <div class="w-4 h-4 md:w-6 md:h-6 rounded-full bg-primary/10 dark:bg-primary-dark/10 flex items-center justify-center text-primary dark:text-primary-dark">
+                        <span class="material-symbols-outlined text-[9px] md:text-sm font-bold">check</span>
                     </div>
                  </div>
-                 <div class="text-[8px] text-center text-muted-slate/70 dark:text-text-dark/40 font-mono font-bold uppercase tracking-tighter">LOCKED</div>
+                 <div class="text-[6px] md:text-[8px] text-center text-muted-slate/70 dark:text-text-dark/40 font-mono font-bold uppercase tracking-tighter">LOCKED</div>
                </div>`
-            : `<div class="w-full h-full flex flex-col justify-between p-2 bg-surface-light/95 border-2 border-dashed border-primary/30 text-muted-slate dark:bg-surface-dark dark:border-primary-dark/30 dark:text-text-dark/50 ${frameClass} shadow-inner">
-                  <div class="text-[7px] font-extrabold tracking-wider uppercase text-muted-slate/50 dark:text-text-dark/30">WAITING</div>
-                  <div class="flex justify-center py-1 text-primary/30 dark:text-primary-dark/30">
-                     <span class="material-symbols-outlined text-base leading-none animate-pulse">hourglass_empty</span>
+            : `<div class="w-full h-full flex flex-col justify-between p-1.5 md:p-2 bg-surface-light/95 border-2 border-dashed border-primary/30 text-muted-slate dark:bg-surface-dark dark:border-primary-dark/30 dark:text-text-dark/50 ${frameClass} shadow-inner">
+                  <div class="text-[6px] md:text-[7px] font-extrabold tracking-wider uppercase text-muted-slate/50 dark:text-text-dark/30">WAITING</div>
+                  <div class="flex justify-center py-0.5 text-primary/30 dark:text-primary-dark/30">
+                     <span class="material-symbols-outlined text-sm md:text-base leading-none animate-pulse">hourglass_empty</span>
                   </div>
-                  <div class="text-[7px] text-center uppercase tracking-widest font-mono font-bold leading-none">Pending</div>
+                  <div class="text-[6px] md:text-[7px] text-center uppercase tracking-widest font-mono font-bold leading-none">Pending</div>
                </div>`;
 
         // Front face (Actual Vote result revealed)
         let frontFaceDecor = '';
         if (showVote) {
             frontFaceDecor = `
-                <div class="w-full h-full flex flex-col justify-between p-2 bg-surface-light border-[2.5px] border-primary text-primary dark:bg-surface-dark dark:border-[2.5px] dark:border-primary-dark dark:text-primary-dark ${frameClass} shadow-md">
-                    <div class="text-[8px] text-left leading-none font-bold">${v.vote}</div>
-                    <div class="text-2xl text-center leading-none font-heading py-2">${v.vote}</div>
-                    <div class="text-[8px] text-right leading-none font-bold">${v.vote}</div>
+                <div class="w-full h-full flex flex-col justify-between p-1.5 md:p-2 bg-surface-light border-[1.5px] md:border-[2.5px] border-primary text-primary dark:bg-surface-dark dark:border-[1.5px] dark:border-primary-dark dark:text-primary-dark ${frameClass} shadow-md">
+                    <div class="text-[6px] md:text-[8px] text-left leading-none font-bold">${v.vote}</div>
+                    <div class="text-sm md:text-2xl text-center leading-none font-heading py-1 md:py-2">${v.vote}</div>
+                    <div class="text-[6px] md:text-[8px] text-right leading-none font-bold">${v.vote}</div>
                 </div>
             `;
         }
@@ -842,13 +868,13 @@ function renderVotersGrid(voters) {
         // If voter has selected their own estimate but votes aren't revealed yet, show it locally!
         const showSelfPeek = !state.revealed && isSelf && v.vote !== null;
         const peekDecor = showSelfPeek 
-            ? `<div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-primary dark:bg-primary-dark text-white dark:text-background-dark px-1.5 py-0.2 rounded text-[8px] font-bold z-10 shadow border border-outline-light/20 whitespace-nowrap">
+            ? `<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary dark:bg-primary-dark text-white dark:text-background-dark px-1.5 py-0.5 rounded text-[7px] md:text-[8px] font-bold z-10 shadow border border-outline-light/20 whitespace-nowrap leading-none">
                  Peek: ${v.vote}
                </div>`
             : '';
 
         return `
-            <div class="absolute flex flex-col items-center gap-1 w-14 sm:w-16 md:w-20 pointer-events-auto select-none" style="left: ${x}%; top: ${y}%; transform: translate(-50%, -50%);">
+            <div class="absolute flex flex-col items-center gap-1 ${cardSizeClass} pointer-events-auto select-none" style="left: ${x}%; top: ${y}%; transform: translate(-50%, -50%);">
                 ${peekDecor}
                 <!-- 3D Card Slot -->
                 <div class="theme-card-voter ${isCardFlipped} relative w-full aspect-[2/3]">
@@ -884,8 +910,8 @@ function renderVotersGrid(voters) {
 // ==================== HOST MASTER ACTIONS ====================
 
 // REVEAL Votes
-async function triggerReveal() {
-    if (!state.isHost) return;
+async function triggerReveal(bypassHostCheck = false) {
+    if (!state.isHost && !bypassHostCheck) return;
     try {
         const res = await fetch(`${API_BASE}/${state.sessionId}/reveal`, {
             method: 'POST',

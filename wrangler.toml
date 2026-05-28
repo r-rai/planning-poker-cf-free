@@ -1,5 +1,5 @@
 # Cloudflare Pages Configuration
-name = "planning-poker-scrum"
+name = "planning-poker-cf-free"
 pages_build_output_dir = "dist"
 compatibility_date = "2024-01-15"
 

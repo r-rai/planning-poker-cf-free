@@ -3,7 +3,3 @@ name = "planning-poker-cf-free"
 pages_build_output_dir = "dist"
 compatibility_date = "2024-01-15"
 
-[[d1_databases]]
-binding = "DB"
-database_name = "planning_poker_db"
-database_id = "planning_poker_db" # Locally this creates a .wrangler directory local DB database
